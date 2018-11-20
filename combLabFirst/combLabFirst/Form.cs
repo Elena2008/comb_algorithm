@@ -15,28 +15,6 @@ namespace combLabFirst
         int n; //число гостей
         int[,] relations;
 
-        private void setAccess(bool b)
-        {
-            //txtBoxAmount.ReadOnly = b;
-            
-            cmbBoxFirst.Enabled = b;
-            cmbBoxSecond.Enabled = b;
-            cmbBoxThird.Enabled = b;
-            cmbBoxForth.Enabled = b;
-            btnAddRelation.Enabled = b;
-            addWantRelation.Enabled = b;
-            btnStart.Enabled = b;
-
-            cmbBoxFirst.Items.Clear();
-            cmbBoxSecond.Items.Clear();
-            cmbBoxThird.Items.Clear();
-            cmbBoxForth.Items.Clear();
-            cmbBoxFirst.Text = "0";
-            cmbBoxSecond.Text = "0";
-            cmbBoxThird.Text = "0";
-            cmbBoxForth.Text = "0";
-        }
-
         private void initMatrix()
         {
             relations = new int[n, n];
@@ -60,102 +38,79 @@ namespace combLabFirst
                 txtBoxAmount.SelectAll();
                 return;
             }
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
             if (n < 2)
             {
                 MessageBox.Show("Число гостей должно быть больше 1!");
                 txtBoxAmount.Focus();
                 txtBoxAmount.SelectAll();
-
             }
             else
             {
                 initMatrix();
-                setAccess(true);
+                btnStart.Enabled = true;
                 txtBoxAmount.ReadOnly = true;
-                for (int i = 0; i < n; i++)
-                {
-                    cmbBoxFirst.Items.Add(i);
-                    cmbBoxSecond.Items.Add(i);
-                    cmbBoxThird.Items.Add(i);
-                    cmbBoxForth.Items.Add(i);
-                }
-                              
-            }
-        }
+                btnOk.Enabled = false;
 
-        private void btnAddRelation_Click(object sender, EventArgs e)
-        {
-            int first = Convert.ToInt32(cmbBoxFirst.Text),
-                second = Convert.ToInt32(cmbBoxSecond.Text);
-            if (first != second)
-            {
-                relations[first, second] = -1;
-                relations[second, first] = -1;
-                MessageBox.Show("Отношение добавлено!");
-                cmbBoxFirst.Focus();
+                CreateGrid(dgvRelations);
+                FillGrid(dgvRelations);
+                dgvRelations.ReadOnly = false;
             }
-            else
-            {
-                MessageBox.Show("Вы выбрали одного и того же человека!");
-                cmbBoxFirst.Focus();
-            }
-        }
+        
+    }
 
         private void CreateGrid(DataGridView dgv)
         {
             int i;
-            DataTable matr = new DataTable("relations");
-            DataColumn[] cols = new DataColumn[n];
+
+            DataGridViewComboBoxColumn newCol;
             for (i = 0; i < n; i++)
             {
-                cols[i] = new DataColumn(i.ToString());
-                matr.Columns.Add(cols[i]);
+                newCol = new DataGridViewComboBoxColumn();
+                dgv.Columns.Add(newCol);
             }
-            DataRow newRow;
+
+            DataGridViewRow newRow;
             for (i = 0; i < n; i++)
             {
-                newRow = matr.NewRow();
-                matr.Rows.Add(newRow);
+                newRow = new DataGridViewRow();
+                dgv.Rows.Add(newRow);
             }
-            dgv.DataSource = matr;
 
             for (i = 0; i < n; i++)
             {
                 dgv.Rows[i].HeaderCell.Value = i.ToString();
+                dgv.Columns[i].HeaderCell.Value = i.ToString();
+                dgv[i, i].ReadOnly = true;
             }
 
-            dgv.AutoResizeColumns();
-            dgv.AutoResizeRows();
         }
+
+        string[] valuesCell = { "Без разницы", "Хочет", "Не хочет"};
 
         private void FillGrid(DataGridView dgv)
         {
-            DataGridViewCell txtCell;
+            DataGridViewComboBoxCell cell;
+
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    txtCell = dgv.Rows[i].Cells[j];
-                    txtCell.Value = relations[i, j].ToString();
+                    cell = (DataGridViewComboBoxCell)dgv.Rows[i].Cells[j];
+                    cell.Items.AddRange(valuesCell);
+                    cell.Value = valuesCell[0];
                 }
             }
+            dgv.AutoResizeColumns();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            /*
-            cmbBoxFirst.Enabled = false;
-            cmbBoxSecond.Enabled = false;
-            btnAddRelation.Enabled = false;
-            cmbBoxThird.Enabled = false;
-            cmbBoxForth.Enabled = false;
-            addWantRelation.Enabled = false;*/
-            setAccess(false); 
-            txtBoxRes.Clear();
-
-            CreateGrid(dgvRelations);
-            FillGrid(dgvRelations);
-            dgvRelations.Show();
+            btnStart.Enabled = false;
+            dgvRelations.ReadOnly = true;
 
             Guests guests = new Guests(relations);
 
@@ -178,120 +133,50 @@ namespace combLabFirst
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            setAccess(false);
             txtBoxAmount.ReadOnly = false;
-            n = 0;
-            dgvRelations.Hide();
+            btnOk.Enabled = true;
+            btnStart.Enabled = false;
+            dgvRelations.Columns.Clear();
+
             txtBoxRes.Clear();
             txtBoxCntRes.Clear();
+
             txtBoxAmount.Focus();
             txtBoxAmount.SelectAll();
         }
-
-        private void cmbBoxFirst_TextChanged(object sender, EventArgs e)
+      
+        private void dgvRelations_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            int first;
             try
             {
-                first = int.Parse(cmbBoxFirst.Text);
-                
+                int n_col = e.ColumnIndex,
+                    n_row = e.RowIndex;
+                var value = dgvRelations[n_col, n_row].Value;
+                if (relations[n_row, n_col] == 2) //если есть отношение что кто-то из этих чел не хочет сидеть рядом
+                {
+                    relations[n_col, n_row] = 2;
+                    dgvRelations[n_col, n_row].Value = valuesCell[2];
+                }
+                else
+                {
+                    if (value.ToString() == valuesCell[1])
+                    {
+                        relations[n_col, n_row] = 1;
+                        relations[n_row, n_col] = 1;
+                    }
+                    else if (value.ToString() == valuesCell[2])
+                    {
+                        relations[n_col, n_row] = 2;
+                        relations[n_row, n_col] = 2;
+                    }
+
+                    dgvRelations[n_row, n_col].Value = value;
+                }
             }
-            catch (Exception)
-            {
-                MessageBox.Show("Неверно задано значение в первом ComboBox!");
-                cmbBoxFirst.Focus();
-                return;
-            }
-            if (first < 0 || first > n-1)
-            {
-                MessageBox.Show("Значение в первом ComboBox должны быть от 0 до "+ (n-1));
-                cmbBoxFirst.Focus();
-                return;
-            }
+            catch (Exception) { } 
+
         }
 
-        private void cmbBoxSecond_TextChanged(object sender, EventArgs e)
-        {
-            int second;
-            try
-            {
-                second = int.Parse(cmbBoxSecond.Text);
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Неверно задано значение во втором ComboBox!");
-                cmbBoxSecond.Focus();
-                return;
-            }
-            if (second < 0 || second > n-1)
-            {
-                MessageBox.Show("Значение во втором ComboBox должны быть от 0 до " + (n-1));
-                cmbBoxSecond.Focus();
-                return;
-            }
-        }
-
-        private void cmbBoxThird_TextChanged(object sender, EventArgs e)
-        {
-            int third;
-            try
-            {
-                third = int.Parse(cmbBoxThird.Text);
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Неверно задано значение в ComboBox!");
-                cmbBoxThird.Focus();
-                return;
-            }
-            if (third < 0 || third > n - 1)
-            {
-                MessageBox.Show("Значение в ComboBox должны быть от 0 до " + (n - 1));
-                cmbBoxThird.Focus();
-                return;
-            }
-        }
-
-        private void cmbBoxForth_TextChanged(object sender, EventArgs e)
-        {
-            int forth;
-            try
-            {
-                forth = int.Parse(cmbBoxForth.Text);
-
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Неверно задано значение в ComboBox!");
-                cmbBoxForth.Focus();
-                return;
-            }
-            if (forth < 0 || forth > n - 1)
-            {
-                MessageBox.Show("Значение в ComboBox должны быть от 0 до " + (n - 1));
-                cmbBoxForth.Focus();
-                return;
-            }
-        }
-
-        private void addWantRelation_Click(object sender, EventArgs e)
-        {
-            int third = Convert.ToInt32(cmbBoxThird.Text),
-                forth = Convert.ToInt32(cmbBoxForth.Text);
-            if (third != forth)
-            {
-                relations[third, forth] = 1;
-                relations[forth, third] = 1;
-                MessageBox.Show("Отношение добавлено!");
-                cmbBoxThird.Focus();
-            }
-            else
-            {
-                MessageBox.Show("Вы выбрали одного и того же человека!");
-                cmbBoxThird.Focus();
-            }
-        }
+       
     }
 }

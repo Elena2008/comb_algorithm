@@ -17,7 +17,7 @@ namespace combLabFirst
         private bool CheckRelation(int[] comb)
         {
             int n = comb.Length-1;
-            if (relations[comb[0], comb[n]] == -1)
+            if (relations[comb[0], comb[n]] == 2)
                 return false;
 
             for (int j = 1; j < n; j++)
@@ -29,7 +29,7 @@ namespace combLabFirst
 
             for (int i = 0; i < n; i++)
             {
-                if (relations[comb[i], comb[i+1]] == -1)
+                if (relations[comb[i], comb[i+1]] == 2)
                     return false;                   
             }
            
