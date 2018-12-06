@@ -71,8 +71,12 @@ namespace comb_alg_13a
                 tbCols.Focus();
                 tbCols.SelectAll();
                 return;
-            }           
+            }
+            
             CreateGrid(dgvInput, n, m);
+            tbCols.Enabled = false;
+            tbRows.Enabled = false;
+            btnCreate.Enabled = false;
         }
 
         private void CreateGrid(DataGridView dgv, int cnt_cols, int cnt_rows)
@@ -110,8 +114,11 @@ namespace comb_alg_13a
                 {
                     txtCell = dgv.Rows[i].Cells[j];
                     string s = txtCell.Value.ToString();
-                    if (s == "") //незапомлненные ячейки заполняем нулями
+                    if (s == "")
+                    {   //незапомлненные ячейки заполняем нулями
                         matr[i][j] = 0;
+                        dgv.Rows[i].Cells[j].Value = "0"; //и отображаем нули на dgv
+                    }
                     else
                         matr[i][j] = Int32.Parse(s);
                 }
@@ -154,8 +161,19 @@ namespace comb_alg_13a
         private void btnRes_Click(object sender, EventArgs e)
         {
             matrix = GridToMatrix(dgvInput, n, m); //наша исходная матрица
-                                                   
-            
+
+            MaxSubMatr maxSubMatr = new MaxSubMatr(matrix);
+
+            maxSubMatr.maxSubMatrix();
+            int[][] sub_matr = maxSubMatr.getSubMatr();
+            tbRes.Text = maxSubMatr.MaxSum.ToString();
+
+            CreateGrid(dgvRes, maxSubMatr.n, maxSubMatr.m);
+            MatrixToGrid(dgvRes, sub_matr, maxSubMatr.n, maxSubMatr.m);
+
+            tbCols.Enabled = true;
+            tbRows.Enabled = true;
+            btnCreate.Enabled = true;
         }
     }
 }

@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.dgvInput = new System.Windows.Forms.DataGridView();
             this.dgvRes = new System.Windows.Forms.DataGridView();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.tbRes = new System.Windows.Forms.TextBox();
             this.btnRes = new System.Windows.Forms.Button();
@@ -42,13 +42,13 @@
             this.tbCols = new System.Windows.Forms.TextBox();
             this.btnCreate = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRes)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -59,6 +59,47 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(662, 246);
             this.panel1.TabIndex = 10;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.dgvInput);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.dgvRes);
+            this.splitContainer1.Size = new System.Drawing.Size(662, 246);
+            this.splitContainer1.SplitterDistance = 329;
+            this.splitContainer1.TabIndex = 1;
+            // 
+            // dgvInput
+            // 
+            this.dgvInput.AllowUserToAddRows = false;
+            this.dgvInput.AllowUserToDeleteRows = false;
+            this.dgvInput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvInput.Location = new System.Drawing.Point(0, 0);
+            this.dgvInput.Name = "dgvInput";
+            this.dgvInput.Size = new System.Drawing.Size(329, 246);
+            this.dgvInput.TabIndex = 1;
+            this.dgvInput.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInput_CellValueChanged);
+            // 
+            // dgvRes
+            // 
+            this.dgvRes.AllowUserToAddRows = false;
+            this.dgvRes.AllowUserToDeleteRows = false;
+            this.dgvRes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvRes.Location = new System.Drawing.Point(0, 0);
+            this.dgvRes.Name = "dgvRes";
+            this.dgvRes.ReadOnly = true;
+            this.dgvRes.Size = new System.Drawing.Size(329, 246);
+            this.dgvRes.TabIndex = 2;
             // 
             // panel2
             // 
@@ -75,47 +116,6 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(662, 78);
             this.panel2.TabIndex = 11;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.dgvInput);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.dgvRes);
-            this.splitContainer1.Size = new System.Drawing.Size(662, 246);
-            this.splitContainer1.SplitterDistance = 318;
-            this.splitContainer1.TabIndex = 1;
-            // 
-            // dgvInput
-            // 
-            this.dgvInput.AllowUserToAddRows = false;
-            this.dgvInput.AllowUserToDeleteRows = false;
-            this.dgvInput.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvInput.Location = new System.Drawing.Point(0, 0);
-            this.dgvInput.Name = "dgvInput";
-            this.dgvInput.Size = new System.Drawing.Size(318, 246);
-            this.dgvInput.TabIndex = 1;
-            this.dgvInput.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInput_CellValueChanged);
-            // 
-            // dgvRes
-            // 
-            this.dgvRes.AllowUserToAddRows = false;
-            this.dgvRes.AllowUserToDeleteRows = false;
-            this.dgvRes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRes.Location = new System.Drawing.Point(0, 0);
-            this.dgvRes.Name = "dgvRes";
-            this.dgvRes.ReadOnly = true;
-            this.dgvRes.Size = new System.Drawing.Size(340, 246);
-            this.dgvRes.TabIndex = 2;
             // 
             // label1
             // 
@@ -138,8 +138,7 @@
             // 
             // btnRes
             // 
-            this.btnRes.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnRes.Location = new System.Drawing.Point(269, 34);
+            this.btnRes.Location = new System.Drawing.Point(201, 45);
             this.btnRes.Name = "btnRes";
             this.btnRes.Size = new System.Drawing.Size(75, 23);
             this.btnRes.TabIndex = 15;
@@ -183,8 +182,7 @@
             // 
             // btnCreate
             // 
-            this.btnCreate.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnCreate.Location = new System.Drawing.Point(188, 34);
+            this.btnCreate.Location = new System.Drawing.Point(201, 16);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(75, 23);
             this.btnCreate.TabIndex = 14;
@@ -202,14 +200,14 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRes)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
