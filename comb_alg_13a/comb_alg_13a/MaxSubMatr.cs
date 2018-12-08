@@ -12,11 +12,11 @@ namespace comb_alg_13a
         private int maxSum = Int32.MinValue;
         private int[][] original;  // матрица, в которой ищем
 
-        int n_str, // количество строк в подматрице
-            n_col; // количество столбцов
+        int nStr, // количество строк в подматрице
+            nCol; // количество столбцов
 
-        public int m { get { return n_str; }}
-        public int n { get { return n_col; } }
+        public int m { get { return nStr; }}
+        public int n { get { return nCol; } }
         public int MaxSum { get { return maxSum; } }
 
         public MaxSubMatr(int[][] arr)
@@ -27,9 +27,9 @@ namespace comb_alg_13a
         public int[][] getSubMatr()
         {
            
-            int[][] newMatrix = new int[n_str][];
-            for (int i = 0; i < n_str; i++)
-                newMatrix[i] = new int[n_col];
+            int[][] newMatrix = new int[nStr][];
+            for (int i = 0; i < nStr; i++)
+                newMatrix[i] = new int[nCol];
 
             for (int i = startX, k = 0; i <= endX; i++, k++)
             {
@@ -56,12 +56,12 @@ namespace comb_alg_13a
                         for (int col2 = col1; col2 < columnCount; col2++)
                         {
                             int computed = computeSum(matrix, row1, row2, col1, col2);
-                            if (computed > maxSum || computed == maxSum && (row2 - row1 + 1 < n_str || col2 - col1 + 1 < n_col))
+                            if (computed > maxSum || computed == maxSum && (row2 - row1 + 1 < nStr || col2 - col1 + 1 < nCol))
                             {
                                 startX = row1; endX = row2;
                                 startY = col1; endY = col2;
-                                n_str = endX - startX + 1;
-                                n_col = endY - startY + 1;
+                                nStr = endX - startX + 1;
+                                nCol = endY - startY + 1;
                                 maxSum = computed;
                             }
                         }
@@ -106,27 +106,25 @@ namespace comb_alg_13a
             return sumMatrix;
         }
 
-        int computeSum(int[][] sumMatrix, int il, int i2, int jl, int j2)
+        int computeSum(int[][] sumMatrix, int i1, int i2, int j1, int j2)
         {
-            if (il == 0 && jl == 0)
+            if (i1 == 0 && j1 == 0)
             { // начинаем с ряда 0, колонки 0
                 return sumMatrix[i2][j2];
             }
-            else if (il == 0)
+            else if (i1 == 0)
             { // начинаем с ряда 0
-                return sumMatrix[i2][j2] - sumMatrix[i2][jl - 1];
+                return sumMatrix[i2][j2] - sumMatrix[i2][j1 - 1];
             }
-            else if (jl == 0)
+            else if (j1 == 0)
             { // начинаем с колонки 0
-                return sumMatrix[i2][j2] - sumMatrix[il - 1][j2];
+                return sumMatrix[i2][j2] - sumMatrix[i1 - 1][j2];
             }
             else
             {
-                return sumMatrix[i2][j2] - sumMatrix[i2][jl - 1] - sumMatrix[il - 1][j2] + sumMatrix[il - 1][jl - 1];
+                return sumMatrix[i2][j2] - sumMatrix[i2][j1 - 1] - sumMatrix[i1 - 1][j2] + sumMatrix[i1 - 1][j1 - 1];
             }
         }
-
-
 
         /*
         private void clearArray(int[] array)

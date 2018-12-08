@@ -41,6 +41,8 @@
             this.tbRows = new System.Windows.Forms.TextBox();
             this.tbCols = new System.Windows.Forms.TextBox();
             this.btnCreate = new System.Windows.Forms.Button();
+            this.btnGenerate = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -103,6 +105,8 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btnClear);
+            this.panel2.Controls.Add(this.btnGenerate);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.tbRes);
             this.panel2.Controls.Add(this.btnRes);
@@ -138,9 +142,9 @@
             // 
             // btnRes
             // 
-            this.btnRes.Location = new System.Drawing.Point(201, 45);
+            this.btnRes.Location = new System.Drawing.Point(333, 8);
             this.btnRes.Name = "btnRes";
-            this.btnRes.Size = new System.Drawing.Size(75, 23);
+            this.btnRes.Size = new System.Drawing.Size(92, 23);
             this.btnRes.TabIndex = 15;
             this.btnRes.Text = "Результат";
             this.btnRes.UseVisualStyleBackColor = true;
@@ -182,13 +186,33 @@
             // 
             // btnCreate
             // 
-            this.btnCreate.Location = new System.Drawing.Point(201, 16);
+            this.btnCreate.Location = new System.Drawing.Point(210, 8);
             this.btnCreate.Name = "btnCreate";
-            this.btnCreate.Size = new System.Drawing.Size(75, 23);
+            this.btnCreate.Size = new System.Drawing.Size(92, 23);
             this.btnCreate.TabIndex = 14;
-            this.btnCreate.Text = "Создать";
+            this.btnCreate.Text = "Заполнить";
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
+            // 
+            // btnGenerate
+            // 
+            this.btnGenerate.Location = new System.Drawing.Point(210, 37);
+            this.btnGenerate.Name = "btnGenerate";
+            this.btnGenerate.Size = new System.Drawing.Size(92, 23);
+            this.btnGenerate.TabIndex = 12;
+            this.btnGenerate.Text = "Сгенерировать";
+            this.btnGenerate.UseVisualStyleBackColor = true;
+            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(333, 37);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(92, 23);
+            this.btnClear.TabIndex = 18;
+            this.btnClear.Text = "Очистить";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // Form1
             // 
@@ -227,6 +251,8 @@
         private System.Windows.Forms.TextBox tbRows;
         private System.Windows.Forms.TextBox tbCols;
         private System.Windows.Forms.Button btnCreate;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnGenerate;
     }
 }
 

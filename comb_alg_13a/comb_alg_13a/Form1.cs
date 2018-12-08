@@ -9,6 +9,7 @@ namespace comb_alg_13a
         public Form1()
         {
             InitializeComponent();
+            btnRes.Enabled = false;
         }
 
         int n = 0, m = 0;
@@ -18,7 +19,8 @@ namespace comb_alg_13a
         {
             try
             {
-                m = int.Parse(tbRows.Text);
+                if (tbRows.Text != String.Empty)
+                    m = int.Parse(tbRows.Text);
             }
             catch (Exception)
             {
@@ -39,7 +41,8 @@ namespace comb_alg_13a
         {
             try
             {
-                n = int.Parse(tbCols.Text);
+                if (tbCols.Text != String.Empty)
+                    n = int.Parse(tbCols.Text);
             }
             catch (Exception)
             {
@@ -77,6 +80,8 @@ namespace comb_alg_13a
             tbCols.Enabled = false;
             tbRows.Enabled = false;
             btnCreate.Enabled = false;
+            btnGenerate.Enabled = false;
+            btnRes.Enabled = true;
         }
 
         private void CreateGrid(DataGridView dgv, int cnt_cols, int cnt_rows)
@@ -137,6 +142,19 @@ namespace comb_alg_13a
             }
         }
 
+        private void RandomMatrix(DataGridView dgv, int cnt_cols, int cnt_rows)
+        {
+            Random rnd = new Random();
+
+            for (int i = 0; i < cnt_rows; i++)
+            {
+                for (int j = 0; j < cnt_cols; j++)
+                {
+                    dgv.Rows[i].Cells[j].Value = rnd.Next(-30,31).ToString();
+                }
+            }
+        }
+
         private void dgvInput_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             int row = e.RowIndex,
@@ -158,6 +176,49 @@ namespace comb_alg_13a
 
         }
 
+        private void btnGenerate_Click(object sender, EventArgs e)
+        {
+            if (tbRows.Text == "")
+            {
+                MessageBox.Show("Количество строк не корректно!");
+                tbRows.Focus();
+                tbRows.SelectAll();
+                return;
+            }
+            if (tbCols.Text == "")
+            {
+                MessageBox.Show("Количество столбцов не корректно!");
+                tbCols.Focus();
+                tbCols.SelectAll();
+                return;
+            }
+
+            CreateGrid(dgvInput, n, m);
+            RandomMatrix(dgvInput, n, m);
+
+            tbCols.Enabled = false;
+            tbRows.Enabled = false;
+            btnGenerate.Enabled = false;
+            btnCreate.Enabled = false;
+            btnRes.Enabled = true;
+
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            tbCols.Clear();
+            tbRows.Clear();
+            tbRes.Clear();
+            dgvInput.DataSource = null;
+            dgvRes.DataSource = null;
+
+            tbCols.Enabled = true;
+            tbRows.Enabled = true;
+            btnCreate.Enabled = true;
+            btnGenerate.Enabled = true;
+            btnRes.Enabled = false;
+        }
+
         private void btnRes_Click(object sender, EventArgs e)
         {
             matrix = GridToMatrix(dgvInput, n, m); //наша исходная матрица
@@ -165,15 +226,16 @@ namespace comb_alg_13a
             MaxSubMatr maxSubMatr = new MaxSubMatr(matrix);
 
             maxSubMatr.maxSubMatrix();
-            int[][] sub_matr = maxSubMatr.getSubMatr();
+            int[][] subMatr = maxSubMatr.getSubMatr();
             tbRes.Text = maxSubMatr.MaxSum.ToString();
 
             CreateGrid(dgvRes, maxSubMatr.n, maxSubMatr.m);
-            MatrixToGrid(dgvRes, sub_matr, maxSubMatr.n, maxSubMatr.m);
+            MatrixToGrid(dgvRes, subMatr, maxSubMatr.n, maxSubMatr.m);
 
-            tbCols.Enabled = true;
-            tbRows.Enabled = true;
+            tbCols.Enabled = false;
+            tbRows.Enabled = false;
             btnCreate.Enabled = true;
+            btnGenerate.Enabled = true;
         }
     }
 }
