@@ -4,9 +4,9 @@ using System.Windows.Forms;
 
 namespace comb_alg_13a
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             btnRes.Enabled = false;
