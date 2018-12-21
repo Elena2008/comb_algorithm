@@ -8,24 +8,25 @@ namespace comb_alg_4a
     {
         static int[] answer;
 
-        public static string Result(int[] set, int sum, out long time, out int realSum)
+        public static string Result(int[] set, int sum, out long time, out int realDiff)
         {
             time = 0;
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
             Array.Sort(set);
-            Array.Reverse(set);
+            Array.Reverse(set);        
 
-            realSum = MTGS(set, set.Length, sum);
+            realDiff = greedy(set, set.Length, sum);
 
             stopWatch.Stop();
-            time = stopWatch.ElapsedTicks;
+            time = stopWatch.Elapsed.Ticks;
 
             return ExactAlgorithm.ToString(answer);
         }
 
-        private static int MTGS(int[] set, int n, int sum)
+        /*
+        private static int greedy(int[] set, int n, int sum) //MTGS O(n^2) из книги
         {
             int summary = 0;
             List<int> subSet = new List<int>();
@@ -34,7 +35,7 @@ namespace comb_alg_4a
             {
                 int tmp = sum;
                 subSet.Clear();
-                for (int j = i; j<n; j++)
+                for (int j = i; j < n; j++)
                 {
                     if (set[j] <= tmp)
                     {
@@ -52,8 +53,25 @@ namespace comb_alg_4a
             }
             return sum - summary;
         }
+        */
+
+        private static int greedy(int[] set, int n, int sum) 
+        {
+            List<int> subSet = new List<int>();
+            int tmp = sum;
+            for (int i = 0; i < set.Length; i++)
+            {
+                if (set[i] <= tmp)
+                {
+                    subSet.Add(set[i]);
+                    tmp -= set[i];
+                }
+            }
+            answer = new int[subSet.Count];
+            subSet.CopyTo(answer);
+            return tmp; //возвращаем погрешность
+        }
 
 
-        
     }
 }
