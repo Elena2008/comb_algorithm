@@ -25,7 +25,6 @@ namespace comb_alg_4a
             return ExactAlgorithm.ToString(answer);
         }
 
-        /*
         private static int greedy(int[] set, int n, int sum) //MTGS O(n^2) из книги
         {
             int summary = 0;
@@ -53,8 +52,8 @@ namespace comb_alg_4a
             }
             return sum - summary;
         }
-        */
-
+    
+        /*
         private static int greedy(int[] set, int n, int sum) 
         {
             List<int> subSet = new List<int>();
@@ -71,7 +70,7 @@ namespace comb_alg_4a
             subSet.CopyTo(answer);
             return tmp; //возвращаем погрешность
         }
-
+        */
 
     }
 }

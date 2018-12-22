@@ -7,7 +7,7 @@ namespace comb_alg_4a
     class ExactAlgorithm
     {
         static bool found;
-        static int[] answer;
+        static List<int> answer;
 
         public static string ToString(int[] perm)
         {
@@ -25,13 +25,15 @@ namespace comb_alg_4a
             stopWatch.Start();
 
             found = false;
+            answer = new List<int>();
             realDiff = 0; //тк получаем точное значение
 
             List<int> curSubSet = new List<int>();
             
-            isSubsetSum(set, sum, curSubSet, 0, 0);
 
-            if (answer == null) //не нашли ответа - значит погрешность = искомой сумме
+            isSubsetSum(set, sum, curSubSet, 0, 0);
+            
+            if (answer.Count == 0) //не нашли ответа - значит погрешность = искомой сумме
             {
                 realDiff = sum;
             }
@@ -39,20 +41,22 @@ namespace comb_alg_4a
             stopWatch.Stop();
             time = stopWatch.Elapsed.Ticks;
 
-            if (answer == null)
+            if (answer.Count == 0)
             {
                 return "Не возможно получить точное значение суммы";
             }
-            return ToString(answer);
+            return ToString(answer.ToArray());
         }
 
         private static void isSubsetSum(int[] set, int targetSum, List<int> curSubSet, int i, int curSum)
         {
             if (curSum == targetSum)
             {
-                answer = new int[curSubSet.Count];
-                curSubSet.CopyTo(answer);
-                found = true;
+                foreach (int el in curSubSet)
+                {
+                    answer.Add(el);
+                }
+                found = true;               
                 return;
             }
             else

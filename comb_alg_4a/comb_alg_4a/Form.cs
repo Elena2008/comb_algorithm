@@ -44,7 +44,7 @@ namespace comb_alg_4a
                 try
                 {
                     elems = tbElems.Text.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => int.Parse(x)).ToArray();
-                    elems = elems.Distinct().ToArray();
+                    //elems = elems.Distinct().ToArray();
                 }
                 catch (Exception)
                 {
